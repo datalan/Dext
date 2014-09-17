@@ -1,6 +1,6 @@
 {
     "name": "Dext",
-    "type": "framework",
+    "type": "code",
     "creator": "Datalan",
     "summary": "Datalan's Ext library",
     "detailedDescription": "ExtJS library containing helpers, shared functionality and more",
