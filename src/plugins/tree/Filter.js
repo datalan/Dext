@@ -15,8 +15,9 @@ Ext.define('Dext.plugins.tree.Filter', {
 
     /**
      * Placeholder of searchField
+     * @default 'Search'
      */
-    emptyText: '',
+    emptyText: 'Search',
 
     /**
      * Background color of toolbar.
@@ -35,6 +36,7 @@ Ext.define('Dext.plugins.tree.Filter', {
 
         clientTree.addDocked({
             xtype: 'toolbar',
+            dock: 'top',
             border: true,
 
             style: {
@@ -52,8 +54,15 @@ Ext.define('Dext.plugins.tree.Filter', {
                 emptyText: this.emptyText,
 
                 listeners: {
-                    change: 'onFilterChange',
-                    buffer: 150,
+                    change: {
+                        fn: 'onFilterChange',
+                        buffer: 150
+                    },
+                    render: {
+                        fn: function(setachField){
+                            this.setachField = setachField;
+                        }
+                    },
                     scope: this
                 },
 
@@ -67,14 +76,12 @@ Ext.define('Dext.plugins.tree.Filter', {
                     search: {
                         cls: 'x-form-search-trigger',
                         weight: 1,
-                        //handler: 'onSearchTriggerClick',
+                        handler: 'onSearchTriggerClick',
                         scope: this
                     }
                 }
             }
         });
-
-        this.setachField = Ext.getCmp('tree-search-field');
     },
 
     /**
