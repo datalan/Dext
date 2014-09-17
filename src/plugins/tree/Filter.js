@@ -9,6 +9,10 @@ Ext.define('Dext.plugins.tree.Filter', {
     alias: 'plugin.filter',
     pluginId: 'filter',
 
+    requires: [
+        'Dext.helpers.RegExp'
+    ],
+
     /**
      * Placeholder of searchField
      */
@@ -140,8 +144,8 @@ Ext.define('Dext.plugins.tree.Filter', {
         var navigationStore = this.tree.getStore();
 
         // escape sepcail character for security reasons
-        //var searchStr = Dcom.base.RegExp.escapeRegExpStr(searchString);
-        var searchRegex = new RegExp(searchString, 'i');
+        var searchStr = Dext.helpers.RegExp.escape(searchString);
+        var searchRegex = new RegExp(searchStr, 'i');
 
         if(searchString.length < 1){
             this.resetFilter();
