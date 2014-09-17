@@ -1,2 +1,4 @@
-# Dext - Datalan's Ext
+# Dext - Datalan's Ext library
+
+ExtJS library containing helpers and shared functionality.
 
