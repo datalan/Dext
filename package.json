@@ -17,5 +17,6 @@
     },
     "output": "${package.dir}/build",
     "local": true,
+    "framework": "ext",
     "requires": []
 }
