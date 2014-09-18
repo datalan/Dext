@@ -34,6 +34,24 @@ Ext.define('Dext.plugins.tree.Filter', {
     init: function(clientTree){
         this.tree = clientTree;
 
+        clientTree.reconfigure(null, [
+            {
+                xtype: 'treecolumn',
+                flex: 1,
+                dataIndex: clientTree.displayField,
+                scope: this,
+                renderer: function(value){
+                    var searchString = this.searchField ? this.searchField.getValue() : '';
+
+                    if(searchString.length > 0){
+                        return this.markMatchedItems(searchString, value);
+                    }
+
+                    return value;
+                }
+            }
+        ]);
+
         clientTree.addDocked({
             xtype: 'toolbar',
             dock: 'top',
@@ -59,8 +77,8 @@ Ext.define('Dext.plugins.tree.Filter', {
                         buffer: 150
                     },
                     render: {
-                        fn: function(setachField){
-                            this.setachField = setachField;
+                        fn: function(searchField){
+                            this.searchField = searchField;
                         }
                     },
                     scope: this
@@ -134,9 +152,9 @@ Ext.define('Dext.plugins.tree.Filter', {
      * Reset filter and tree
      */
     resetFilter: function(){
-        this.setachField.reset();
-        this.setachField.getTrigger('clear').hide();
-        this.setachField.focus();
+        this.searchField.reset();
+        this.searchField.getTrigger('clear').hide();
+        this.searchField.focus();
 
         this.tree.collapseAll();
     },
@@ -180,5 +198,9 @@ Ext.define('Dext.plugins.tree.Filter', {
 
             this.tree.expandAll();
         }
+    },
+
+    markMatchedItems: function(searchString, item){
+        return item.replace(new RegExp('(' + searchString + ')', 'gi'), "<span class='matched-filter'>$1</span>");
     }
 });
