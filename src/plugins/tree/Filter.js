@@ -159,9 +159,9 @@ Ext.define('Dext.plugins.tree.Filter', {
         this.tree.collapseAll();
 
         // If something is selected, expand branch to this item
-        var selectedItem = this.tree.getSelection();
-        if(selectedItem.length){
-            this.tree.selectPath(selectedItem[0].getPath());
+        var selectedItems = this.tree.getSelection();
+        if(selectedItems.length){
+            this.tree.selectPath(selectedItems[0].getPath());
         }
     },
 
