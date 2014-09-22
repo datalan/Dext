@@ -68,7 +68,6 @@ Ext.define('Dext.plugins.tree.Filter', {
 
             items: {
                 xtype: 'textfield',
-                id: 'tree-search-field',
                 emptyText: this.emptyText,
 
                 listeners: {
