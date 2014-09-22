@@ -180,7 +180,7 @@ Ext.define('Dext.plugins.tree.Filter', {
         if(searchString.length < 1){
             this.resetFilter();
         } else{
-            navigationStore.filter({
+            navigationStore.getFilters().replaceAll({
                 filterFn: function(node){
                     var children = node.childNodes;
                     var len = children && children.length;
@@ -196,8 +196,7 @@ Ext.define('Dext.plugins.tree.Filter', {
                     for(var i = 0; i < len && !(visible = children[i].get('visible')); i++);
 
                     return visible;
-                },
-                id: 'titleFilter'
+                }
             });
 
             this.tree.expandAll();
