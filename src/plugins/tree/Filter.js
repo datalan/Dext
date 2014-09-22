@@ -145,7 +145,6 @@ Ext.define('Dext.plugins.tree.Filter', {
      */
     onClearTriggerClick: function(searchField){
         this.resetFilter();
-        this.filterStore(searchField.getValue());
     },
 
     /**
@@ -154,9 +153,16 @@ Ext.define('Dext.plugins.tree.Filter', {
     resetFilter: function(){
         this.searchField.reset();
         this.searchField.getTrigger('clear').hide();
-        this.searchField.focus();
+
+        this.tree.getStore().clearFilter();
 
         this.tree.collapseAll();
+
+        // If something is selected, expand branch to this item
+        var selectedItem = this.tree.getSelection();
+        if(selectedItem.length){
+            this.tree.selectPath(selectedItem[0].getPath());
+        }
     },
 
     /**
@@ -174,7 +180,6 @@ Ext.define('Dext.plugins.tree.Filter', {
 
         if(searchString.length < 1){
             this.resetFilter();
-            navigationStore.clearFilter();
         } else{
             navigationStore.filter({
                 filterFn: function(node){
