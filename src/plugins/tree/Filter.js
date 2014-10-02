@@ -26,6 +26,12 @@ Ext.define('Dext.plugins.tree.Filter', {
     backgroundColor: '',
 
     /**
+     * Last selected item, that should be selected after filter is cleared
+     * @private
+     */
+    lastSelectedItem: null,
+
+    /**
      * Add search field at the top of tree panel
      *
      * @param clientTree
@@ -33,6 +39,15 @@ Ext.define('Dext.plugins.tree.Filter', {
      */
     init: function(clientTree){
         this.tree = clientTree;
+
+        clientTree.on({
+            select: {
+                scope: this,
+                fn: function(tree, item){
+                    this.lastSelectedItem = item;
+                }
+            }
+        });
 
         clientTree.reconfigure(null, [
             {
@@ -110,7 +125,7 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param oldValue
      */
     onFilterChange: function(searchField, newValue, oldValue){
-        if(newValue !== oldValue){
+        if(newValue && newValue !== oldValue){
             var clearTrigger = searchField.getTrigger('clear');
             var searchTrigger = searchField.getTrigger('search');
 
@@ -142,7 +157,7 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @event Dext.plugins.tree.Filter#[event:]onClearTriggerClick
      * @param searchField
      */
-    onClearTriggerClick: function(searchField){
+    onClearTriggerClick: function(){
         this.resetFilter();
     },
 
@@ -158,9 +173,8 @@ Ext.define('Dext.plugins.tree.Filter', {
         this.tree.collapseAll();
 
         // If something is selected, expand branch to this item
-        var selectedItems = this.tree.getSelection();
-        if(selectedItems.length){
-            this.tree.selectPath(selectedItems[0].getPath());
+        if(this.lastSelectedItem){
+            this.tree.selectPath(this.lastSelectedItem.getPath());
         }
     },
 
