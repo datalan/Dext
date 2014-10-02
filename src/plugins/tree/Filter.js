@@ -125,7 +125,7 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param oldValue
      */
     onFilterChange: function(searchField, newValue, oldValue){
-        if(newValue && newValue !== oldValue){
+        if(newValue !== oldValue){
             var clearTrigger = searchField.getTrigger('clear');
             var searchTrigger = searchField.getTrigger('search');
 
