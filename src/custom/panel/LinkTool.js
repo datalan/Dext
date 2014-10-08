@@ -15,12 +15,13 @@ Ext.define('Dext.custom.panel.LinkTool', {
      */
     redirectCurrent: false,
 
-    renderTpl: ['<a class="{baseCls}-{type}" role="link" href="{link}">{caption}</a>'],
+    renderTpl: ['<a class="{baseCls}-{type} {specificCls}" role="link" href="{link}">{caption}</a>'],
 
     initComponent: function(){
         Ext.applyIf(this.renderData, {
             link: this.link,
-            caption: this.caption
+            caption: this.caption,
+            specificCls: this.linkCls
         });
 
         this.callParent();
