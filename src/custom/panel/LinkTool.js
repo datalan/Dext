@@ -16,6 +16,16 @@ Ext.define('Dext.custom.panel.LinkTool', {
     redirectCurrent: false,
 
     renderTpl: ['<a class="{baseCls}-{type} {specificCls}" role="link" href="{link}">{caption}</a>'],
+    
+    /**
+     * added listener to fix bug with more panels on site.
+     * 
+     */
+    listeners : {
+    	afterrender: function( component ) {
+    		component.setWidth(component.getWidth());
+    	}
+    },
 
     initComponent: function(){
         Ext.applyIf(this.renderData, {
