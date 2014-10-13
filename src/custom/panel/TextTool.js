@@ -7,6 +7,8 @@ Ext.define('Dext.custom.panel.TextTool', {
 
     type: 'text',
 
+    ariaRole: 'textbox',
+
     renderTpl: ['<span class="{baseCls}-{type} {specificCls}" role="presentation" >{caption}</span>'],
 
     initComponent: function(){
