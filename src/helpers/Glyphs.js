@@ -16,7 +16,10 @@ Ext.define('Dext.helpers.Glyphs', {
      * configuration object defining webfont and icons mapped to readable names
      */
     config: {
+        add: 0xf067,
         filter: 0xf0b0,
+        refresh: 0xf021,
+        trash: 0xf1f8,
         view: 0xf06e
     },
 
