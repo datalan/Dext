@@ -17,9 +17,12 @@ Ext.define('Dext.helpers.Glyphs', {
      */
     config: {
         add: 0xf067,
+        book: 0xf02d,
+        circleArrowRight: 0xf18e,
         filter: 0xf0b0,
         refresh: 0xf021,
         trash: 0xf1f8,
+        user: 0xf007,
         view: 0xf06e
     },
 
