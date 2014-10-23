@@ -9,32 +9,49 @@ Ext.define('Dext.custom.panel.LinkTool', {
 
     ariaRole: 'link',
 
+    glyph: null,
+
     /**
      * Defines if content should be load to new browser tab/window, or current should be reloaded
      * @default false = new tab/window
      */
     redirectCurrent: false,
 
-    renderTpl: ['<a class="{baseCls}-{type} {specificCls}" role="link" href="{link}">{caption}</a>'],
-    
+    renderTpl: ['<span class="{baseCls}-{type} {specificCls}" >' +
+                    '<span role="img" class="x-tool-glyph" unselectable="on" style="' +
+                        '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">' +
+                        '<tpl if="glyph">&#{glyph};</tpl>' +
+                    '</span>' +
+                    '<a class="x-tool-caption" role="link" href="{link}">{caption}</a>' +
+                '</span>'],
+
     /**
      * added listener to fix bug with more panels on site.
-     * 
      */
     listeners : {
-    	afterrender: function( component ) {
-    		component.setWidth(component.getWidth());
+    	afterrender: function(component) {
+    		//component.setWidth(component.getWidth());
     	}
     },
 
     initComponent: function(){
+        this.callParent();
+
+        if(typeof this.glyph === 'string'){
+            var glyphParts = this.glyph.split('@');
+            this.glyph = glyphParts[0];
+            this.glyphFontFamily = glyphParts[1];
+        } else {
+            this.glyphFontFamily = Ext._glyphFontFamily;
+        }
+
         Ext.applyIf(this.renderData, {
             link: this.link,
             caption: this.caption,
+            glyph: this.glyph || '',
+            glyphFontFamily: this.glyphFontFamily,
             specificCls: this.linkCls
         });
-
-        this.callParent();
     },
 
     handler: function(){
