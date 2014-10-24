@@ -25,15 +25,6 @@ Ext.define('Dext.custom.panel.LinkTool', {
                     '<a class="x-tool-caption" role="link" href="{link}">{caption}</a>' +
                 '</span>'],
 
-    /**
-     * added listener to fix bug with more panels on site.
-     */
-    listeners : {
-    	afterrender: function(component) {
-    		//component.setWidth(component.getWidth());
-    	}
-    },
-
     initComponent: function(){
         this.callParent();
 
