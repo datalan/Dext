@@ -28,7 +28,8 @@ Ext.define('Dext.helpers.Glyphs', {
         trash: 0xf1f8,
         user: 0xf007,
         view: 0xf06e,
-        warning: 0xf071
+        warning: 0xf071,
+        remove: 0xf00d
     },
 
     /**
