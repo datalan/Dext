@@ -29,7 +29,9 @@ Ext.define('Dext.helpers.Glyphs', {
         user: 0xf007,
         view: 0xf06e,
         warning: 0xf071,
-        remove: 0xf00d
+        remove: 0xf00d,
+        arrowUp: 0xf062,
+        arrowDown: 0xf063
     },
 
     /**
