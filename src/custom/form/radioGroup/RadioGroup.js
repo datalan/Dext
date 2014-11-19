@@ -1,20 +1,17 @@
-/**
- * Created by Milan on 3. 9. 2014.
- */
-Ext.define('Dext.custom.form.RadioGroup', {
+Ext.define('Dext.custom.form.radioGroup.RadioGroup', {
     extend: 'Ext.container.Container',
-    alias: 'widget.dcom-assistedsubmission-form-radiogroup',
+    alias: 'widget.customradiogroup',
 
     layout: {
         type: 'hbox'
     },
 
-    itemy: null,
+    fields: null,
     defaultChecked: null,
-    defaultType: null,
+    defaultType: null, // possible types: checkbox, radio
 
     requires: [
-        'Dext.custom.form.RadioGroupController'
+        'Dext.custom.form.radioGroup.RadioGroupController'
     ],
 
     controller: 'radiogroupcontroller',
@@ -29,13 +26,16 @@ Ext.define('Dext.custom.form.RadioGroup', {
             },
             {
                 xtype: 'container',
-                itemId: 'itemsContainer',
+                reference: 'itemsContainer',
                 margin: '0 0 0 10',
                 layout: {
                     type: 'vbox'
                 },
 
-                nastavDisabled: function(){
+                /**
+                 * when item was not rendered, first we need to render it and then we can set opacity property
+                 */
+                setDisableLook: function(){
                     Ext.Array.forEach(this.items.items, function(item){
                         item.setReadOnly(true);
                         if(!item.bodyEl){
@@ -46,7 +46,7 @@ Ext.define('Dext.custom.form.RadioGroup', {
                     }, this);
                 },
 
-                nastavEnabled: function(){
+                setEnableLook: function(){
                     Ext.Array.forEach(this.items.items, function(item){
                         item.setReadOnly(false);
                         if(!item.bodyEl){
@@ -59,19 +59,7 @@ Ext.define('Dext.custom.form.RadioGroup', {
         ];
 
         this.callParent();
-
-        var itemsContainer = this.down('#itemsContainer');
-        Ext.Array.forEach(this.itemy, function(item){
-            itemsContainer.add(item);
-        }, this);
-
-        Ext.Array.forEach(itemsContainer.items.items, function(item){
-            item.addListener('render', function(c){
-                c.labelEl.on('click', function(){
-                    this.up('dcom-assistedsubmission-form-radiogroup').down('#checkField').setValue(true);
-                }, c);
-            }, this);
-        }, this);
+        this.getController().setFields();
 
     }
 });
