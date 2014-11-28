@@ -40,6 +40,7 @@ Ext.define('Dext.custom.form.radioGroup.RadioGroupController', {
     setFields: function(){
         var itemsContainer = this.lookupReference('itemsContainer');
         Ext.Array.forEach(this.view.fields, function(item){
+            item.disabledCls= 'radioGroupField';
             itemsContainer.add(item);
         }, this);
 

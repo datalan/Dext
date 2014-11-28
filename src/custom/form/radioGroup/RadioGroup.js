@@ -37,18 +37,18 @@ Ext.define('Dext.custom.form.radioGroup.RadioGroup', {
                  */
                 setDisableLook: function(){
                     Ext.Array.forEach(this.items.items, function(item){
-                        item.setReadOnly(true);
+                        item.setDisabled(true);
                         if(!item.bodyEl){
                             item.doAutoRender();
                         }
-                        item.bodyEl.setOpacity(0.5);
+                        item.bodyEl.setOpacity(0.3);
                         item.reset();
                     }, this);
                 },
 
                 setEnableLook: function(){
                     Ext.Array.forEach(this.items.items, function(item){
-                        item.setReadOnly(false);
+                        item.setDisabled(false);
                         if(!item.bodyEl){
                             item.doAutoRender();
                         }
