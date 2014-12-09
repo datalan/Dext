@@ -9,6 +9,10 @@ Ext.define('Dext.custom.panel.TextTool', {
 
     ariaRole: 'textbox',
 
+    reguires: [
+        'Dext.helpers.Encoding'
+    ],
+
     renderTpl: ['<span class="{baseCls}-{type} {specificCls}">' +
                     '<span role="img" class="x-tool-glyph" unselectable="on" style="' +
                         '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">' +
@@ -25,7 +29,7 @@ Ext.define('Dext.custom.panel.TextTool', {
 
     initComponent: function(){
         this.callParent();
-        this.caption = this.replaceSpecialCharacters(this.caption);
+        this.caption = Dext.helpers.Encoding.html(this.caption);
 
         if(typeof this.glyph === 'string'){
             var glyphParts = this.glyph.split('@');
@@ -45,14 +49,8 @@ Ext.define('Dext.custom.panel.TextTool', {
     },
 
     setCaption: function(caption) {
-        caption = this.replaceSpecialCharacters(caption);
+        caption = Dext.helpers.Encoding.html(caption);
         this.getEl().down('.x-tool-caption').setHtml(caption);
         this.setWidth(this.getEl().down('.x-tool-caption').getWidth());
-    },
-
-    replaceSpecialCharacters: function(caption) {
-        caption = caption.replace(/</g, '&#60;');
-        caption = caption.replace(/>/g, '&#62;');
-        return caption;
     }
 });
