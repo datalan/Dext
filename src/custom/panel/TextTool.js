@@ -14,11 +14,18 @@ Ext.define('Dext.custom.panel.TextTool', {
                         '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">' +
                         '<tpl if="glyph">&#{glyph};</tpl>' +
                     '</span>' +
-                    '<span class="x-tool-caption" role="presentation" >{caption}</span>' +
+                    '<span class="x-tool-caption {specificCaptionCls}" role="presentation">{caption}</span>' +
                 '</span>'],
+
+    listeners : {
+        afterrender: function( component ) {
+            component.setWidth(component.getWidth());
+        }
+    },
 
     initComponent: function(){
         this.callParent();
+        this.caption = this.replaceSpecialCharacters(this.caption);
 
         if(typeof this.glyph === 'string'){
             var glyphParts = this.glyph.split('@');
@@ -32,7 +39,20 @@ Ext.define('Dext.custom.panel.TextTool', {
             caption: this.caption,
             glyph: this.glyph || '',
             glyphFontFamily: this.glyphFontFamily,
+            specificCaptionCls: this.specificCaptionCls,
             specificCls: this.linkCls
         });
+    },
+
+    setCaption: function(caption) {
+        caption = this.replaceSpecialCharacters(caption);
+        this.getEl().down('.x-tool-caption').setHtml(caption);
+        this.setWidth(this.getEl().down('.x-tool-caption').getWidth());
+    },
+
+    replaceSpecialCharacters: function(caption) {
+        caption = caption.replace(/</g, '&#60;');
+        caption = caption.replace(/>/g, '&#62;');
+        return caption;
     }
 });
