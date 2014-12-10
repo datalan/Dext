@@ -32,9 +32,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     },
     "sass/config.rb": {
@@ -43,9 +43,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     },
     "sass/etc/all.scss": {
@@ -54,9 +54,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     },
     "sass/example/custom.js": {
@@ -65,9 +65,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     },
     "sass/example/theme.html": {
@@ -76,9 +76,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     },
     ".sencha/package/build.properties": {
@@ -87,9 +87,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     },
     ".sencha/package/sencha.cfg": {
@@ -98,9 +98,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     },
     ".sencha/package/testing.properties": {
@@ -109,9 +109,9 @@
       "parameters": {
         "extRelPath": "../../ext",
         "pkgName": "Dext",
-        "pkgType": "framework",
+        "pkgType": "code",
         "senchadir": ".sencha",
-        "touchRelPath": "../../${touch.dir}"
+        "touchRelPath": "${touch.dir}"
       }
     }
   }
