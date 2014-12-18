@@ -26,12 +26,6 @@ Ext.define('Dext.plugins.tree.Filter', {
     backgroundColor: '',
 
     /**
-     * Configuration, if we want to show not leaf node, that does not have childrens
-     * @default true
-     */
-    showEmptyParent: true,
-
-    /**
      * Last selected item, that should be selected after filter is cleared
      * @private
      */
@@ -190,7 +184,6 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param searchString
      */
     filterStore: function(searchString){
-        var me = this;
         var displayField = this.tree.displayField;
         var navigationStore = this.tree.getStore();
 
@@ -209,9 +202,6 @@ Ext.define('Dext.plugins.tree.Filter', {
                     // Visibility of leaf nodes is whether they pass the test.
                     // Visibility of branch nodes depends on them having visible children.
                     var visible = node.isLeaf() ? searchRegex.test(node.get(displayField)) : false;
-                    if(me.showEmptyParent && !node.isLeaf()){
-                        visible =  searchRegex.test(node.get(displayField));
-                    }
 
                     // We're visible if one of our child nodes is visible.
                     // No loop body here. We are looping only while the visible flag remains false.
