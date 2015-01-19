@@ -26,16 +26,15 @@ Ext.define('Dext.plugins.tree.Filter', {
     backgroundColor: '',
 
     /**
-     * Configuration, if we want to show not leaf node, that does not have childrens
-     * @default true
-     */
-    showEmptyParent: true,
-
-    /**
      * Last selected item, that should be selected after filter is cleared
      * @private
      */
     lastSelectedItem: null,
+
+    /**
+     * flag indicating if filter match leafs only or leafs with parents nodes
+     */
+    leafMatchingOnly: false,
 
     /**
      * Add search field at the top of tree panel
@@ -43,13 +42,13 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param clientTree
      * @private
      */
-    init: function(clientTree){
+    init: function (clientTree) {
         this.tree = clientTree;
 
         clientTree.on({
             select: {
                 scope: this,
-                fn: function(tree, item){
+                fn: function (tree, item) {
                     this.lastSelectedItem = item;
                 }
             }
@@ -61,10 +60,10 @@ Ext.define('Dext.plugins.tree.Filter', {
                 flex: 1,
                 dataIndex: clientTree.displayField,
                 scope: this,
-                renderer: function(value){
+                renderer: function (value) {
                     var searchString = this.searchField ? this.searchField.getValue() : '';
 
-                    if(searchString.length > 0){
+                    if (searchString.length > 0) {
                         return this.markMatchedItems(searchString, value);
                     }
 
@@ -97,7 +96,7 @@ Ext.define('Dext.plugins.tree.Filter', {
                         buffer: 150
                     },
                     render: {
-                        fn: function(searchField){
+                        fn: function (searchField) {
                             this.searchField = searchField;
                         }
                     },
@@ -130,15 +129,15 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param newValue
      * @param oldValue
      */
-    onFilterChange: function(searchField, newValue, oldValue){
-        if(newValue !== oldValue){
+    onFilterChange: function (searchField, newValue, oldValue) {
+        if (newValue !== oldValue) {
             var clearTrigger = searchField.getTrigger('clear');
             var searchTrigger = searchField.getTrigger('search');
 
-            if(newValue){
+            if (newValue) {
                 clearTrigger.show();
                 searchTrigger.hide();
-            } else{
+            } else {
                 clearTrigger.hide();
                 searchTrigger.show();
             }
@@ -153,7 +152,7 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @event Dext.plugins.tree.Filter#[event:]onSearchTriggerClick
      * @param searchField
      */
-    onSearchTriggerClick: function(searchField){
+    onSearchTriggerClick: function (searchField) {
         this.filterStore(searchField.getValue());
     },
 
@@ -163,14 +162,14 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @event Dext.plugins.tree.Filter#[event:]onClearTriggerClick
      * @param searchField
      */
-    onClearTriggerClick: function(){
+    onClearTriggerClick: function () {
         this.resetFilter();
     },
 
     /**
      * Reset filter and tree
      */
-    resetFilter: function(){
+    resetFilter: function () {
         this.searchField.reset();
         this.searchField.getTrigger('clear').hide();
 
@@ -179,7 +178,7 @@ Ext.define('Dext.plugins.tree.Filter', {
         this.tree.collapseAll();
 
         // If something is selected, expand branch to this item
-        if(this.lastSelectedItem){
+        if (this.lastSelectedItem) {
             this.tree.selectPath(this.lastSelectedItem.getPath());
         }
     },
@@ -189,45 +188,60 @@ Ext.define('Dext.plugins.tree.Filter', {
      *
      * @param searchString
      */
-    filterStore: function(searchString){
-        var me = this;
+    filterStore: function (searchString) {
+
+        /**
+         * Function is taken from the kitchensink and customized for our use
+         * Class property leafMatchingOnly = TRUE sets only leafs are matching, FALSE sets leafs and nodes(parents) are matching
+         */
+        var store = this.tree.getStore();
         var displayField = this.tree.displayField;
-        var navigationStore = this.tree.getStore();
 
-        // escape sepcail character for security reasons
-        var searchStr = Dext.helpers.RegExp.escape(searchString);
-        var searchRegex = new RegExp(searchStr, 'i');
+        var filterFn = function (node) {
+            var children = node.childNodes;
+            var len = children && children.length;
+            var i;
 
-        if(searchString.length < 1){
-            this.resetFilter();
-        } else{
-            navigationStore.getFilters().replaceAll({
-                filterFn: function(node){
-                    var children = node.childNodes;
-                    var len = children && children.length;
+            var visible = this.leafMatchingOnly ? (node.isLeaf() ? searchRegex.test(node.get(displayField)) : false) : (searchRegex.test(node.get(displayField)) );
 
-                    // Visibility of leaf nodes is whether they pass the test.
-                    // Visibility of branch nodes depends on them having visible children.
-                    var visible = node.isLeaf() ? searchRegex.test(node.get(displayField)) : false;
-                    if(me.showEmptyParent && !node.isLeaf()){
-                        visible =  searchRegex.test(node.get(displayField));
+            if (!visible) {
+                for (i = 0; i < len; i++) {
+                    if (children[i].isLeaf()) {
+                        visible = children[i].get('visible');
                     }
-
-                    // We're visible if one of our child nodes is visible.
-                    // No loop body here. We are looping only while the visible flag remains false.
-                    // Child nodes are filtered before parents, so we can check them here.
-                    // As soon as we find a visible child, this branch node must be visible.
-                    for(var i = 0; i < len && !(visible = children[i].get('visible')); i++);
-
-                    return visible;
+                    else {
+                        visible = filterFn(children[i]);
+                    }
+                    if (visible) {
+                        break;
+                    }
                 }
-            });
+            }
+            else {
+                if (!this.leafMatchingOnly) {
+                    for (i = 0; i < len; i++) {
+                        children[i].set('visible', true);
+                    }
+                }
+            }
+            return visible;
+        };
 
+
+        if (searchString.length < 1) {
+            this.resetFilter();
+        } else {
+            var searchRegex = new RegExp(Dext.helpers.RegExp.escape(searchString), 'i');
+            store.getFilters().replaceAll({
+                filterFn: filterFn
+            });
             this.tree.expandAll();
         }
+
+
     },
 
-    markMatchedItems: function(searchString, item){
-        return item.replace(new RegExp('(' + searchString + ')', 'gi'), "<span class='matched-filter'>$1</span>");
+    markMatchedItems: function (searchString, item) {
+        return item.replace(new RegExp('(' + searchString + ')', 'gi'), '<span class="matched-filter">$1</span>');
     }
 });
