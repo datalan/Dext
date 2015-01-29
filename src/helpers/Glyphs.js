@@ -32,7 +32,8 @@ Ext.define('Dext.helpers.Glyphs', {
         remove: 0xf00d,
         arrowUp: 0xf062,
         arrowDown: 0xf063,
-        edit: 0xf044
+        edit: 0xf044,
+        gear: 0xf013
     },
 
     /**
