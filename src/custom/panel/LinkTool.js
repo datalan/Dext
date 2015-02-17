@@ -54,5 +54,10 @@ Ext.define('Dext.custom.panel.LinkTool', {
                 windowReference.focus();
             }
         }
+    },
+
+    setLink: function(link) {
+        this.link = link;
+        this.getEl().down('.x-tool-caption').dom.href = link;
     }
 });

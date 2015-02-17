@@ -51,6 +51,10 @@ Ext.define('Dext.custom.panel.TextTool', {
     setCaption: function(caption) {
         caption = Dext.helpers.Encoding.html(caption);
         this.getEl().down('.x-tool-caption').setHtml(caption);
-        this.setWidth(this.getEl().down('.x-tool-caption').getWidth());
+        var newWidth = this.getEl().down('.x-tool-caption').getWidth();
+        if(this.glyph){
+            newWidth = newWidth + 18;
+        }
+        this.setWidth(newWidth);
     }
 });
