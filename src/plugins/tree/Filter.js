@@ -202,19 +202,12 @@ Ext.define('Dext.plugins.tree.Filter', {
             var len = children && children.length;
             var i;
 
-            var visible;
+            var visible = searchRegex.test(node.get(displayField));
 
             if (this.leafMatchingOnly) {
-                if (node.isLeaf()) {
-                    visible = searchRegex.test(node.get(displayField));
-
+                if (!node.isLeaf()) {
+                    visible = false;
                 }
-                else {
-                    visible = false
-                }
-            }
-            else {
-                visible = searchRegex.test(node.get(displayField));
             }
 
             if (!visible) {
@@ -232,7 +225,6 @@ Ext.define('Dext.plugins.tree.Filter', {
             }
             else {
                 if (!this.leafMatchingOnly) {
-
                     for (i = 0; i < len; i++) {
                         //children[i].set('visible', true);
                         children[i].raw.visible = true;
@@ -251,10 +243,8 @@ Ext.define('Dext.plugins.tree.Filter', {
                 filterFn: filterFn
             });
             this.tree.expandAll();
-            this.tree.doLayout();
+            //this.tree.doLayout();
         }
-
-
     },
 
     markMatchedItems: function (searchString, item) {
