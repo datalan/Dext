@@ -44,7 +44,7 @@ Ext.define('Dext.custom.panel.TextTool', {
             glyph: this.glyph || '',
             glyphFontFamily: this.glyphFontFamily,
             specificCaptionCls: this.specificCaptionCls,
-            specificCls: this.linkCls
+            specificCls: this.textCls
         });
     },
 
