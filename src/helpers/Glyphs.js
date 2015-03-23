@@ -35,7 +35,8 @@ Ext.define('Dext.helpers.Glyphs', {
         edit: 0xf044,
         save: 0xf0c7,
         gear: 0xf013,
-        question: 0xf128
+        question: 0xf128,
+        detail: 0xf05a
     },
 
     /**
