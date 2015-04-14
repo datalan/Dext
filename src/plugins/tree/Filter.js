@@ -189,6 +189,7 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param searchString
      */
     filterStore: function (searchString) {
+        console.debug("searchString",searchString)
 
         /**
          * Function is taken from the kitchensink and customized for our use
@@ -202,7 +203,7 @@ Ext.define('Dext.plugins.tree.Filter', {
             var len = children && children.length;
             var i;
 
-            var visible = searchRegex.test(node.get(displayField));
+            var visible = searchRegex.test(Dext.helpers.String.removeDiacritics(node.get(displayField)));
 
             if (this.leafMatchingOnly) {
                 if (!node.isLeaf()) {
@@ -238,7 +239,7 @@ Ext.define('Dext.plugins.tree.Filter', {
         if (searchString.length < 1) {
             this.resetFilter();
         } else {
-            var searchRegex = new RegExp(Dext.helpers.RegExp.escape(searchString), 'i');
+            var searchRegex = new RegExp(Dext.helpers.RegExp.escape(Dext.helpers.String.removeDiacritics(searchString)), 'i');
             store.getFilters().replaceAll({
                 filterFn: filterFn
             });
