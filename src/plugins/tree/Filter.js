@@ -10,7 +10,7 @@ Ext.define('Dext.plugins.tree.Filter', {
     pluginId: 'filter',
 
     requires: [
-        'Dext.helpers.RegExp'
+        'Dext.helpers.RegExp', 'Dext.helpers.String'
     ],
 
     /**
@@ -189,8 +189,6 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param searchString
      */
     filterStore: function (searchString) {
-        console.debug("searchString",searchString)
-
         /**
          * Function is taken from the kitchensink and customized for our use
          * Class property leafMatchingOnly = TRUE sets only leafs are matching, FALSE sets leafs and nodes(parents) are matching
