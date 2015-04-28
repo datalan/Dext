@@ -12,6 +12,60 @@ Ext.define('Dext.helpers.Encoding', {
     },
 
     /**
+     * Kodovanie specialnych znakov
+     *
+     *
+     * @param {String} string
+     * @return {String} encoded string
+     */
+    utf8Encode: function(string) {
+        string = string.replace(/\r\n/g, '\n');
+        var utftext = '';
+        for (var n = 0; n < string.length; n++) {
+            var c = string.charCodeAt(n);
+            if (c < 128) {
+                utftext += String.fromCharCode(c);
+            } else if ((c > 127) && (c < 2048)) {
+                utftext += String.fromCharCode((c >> 6) | 192);
+                utftext += String.fromCharCode((c & 63) | 128);
+            } else {
+                utftext += String.fromCharCode((c >> 12) | 224);
+                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
+                utftext += String.fromCharCode((c & 63) | 128);
+            }
+        }
+        return utftext;
+    },
+
+    /**
+     * Kodovanie vyuzivane pre stahovanie suborov cez POST. Klasicky btoa nefunguje kvoli specialnym znakom
+     *
+     *
+     * @param {String} input
+     * @return {String} encoded string
+     */
+    encodedBtoa: function(input){
+        if(window.btoa){
+            return window.btoa(this.utf8Encode(input));
+        }
+
+        var str = this.utf8Encode(String(input));
+        for(// initialize result and counter
+            var block, charCode, idx = 0, map = this.chars, output = ''; // if the next str index does not exist:
+            //   change the mapping table to "="
+            //   check if d has no fractional digits
+            str.charAt(idx | 0) || (map = '=', idx % 1); // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+            output += map.charAt(63 & block >> 8 - idx % 1 * 8)){
+            charCode = str.charCodeAt(idx += 3 / 4);
+            if(charCode > 0xFF){
+                throw new Error('\'btoa\' failed: The string to be encoded contains characters outside of the Latin1 range.');
+            }
+            block = block << 8 | charCode;
+        }
+        return output;
+    },
+
+    /**
      * Btoa polyfill.
      *
      * Source: [https://gist.github.com/999166] by [https://github.com/nignag]
