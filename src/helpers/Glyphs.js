@@ -38,7 +38,8 @@ Ext.define('Dext.helpers.Glyphs', {
         question: 0xf128,
         questionCircle: 0xf059,
         empty: 0xf016,
-        excel: 0xf1c3
+        excel: 0xf1c3,
+        quotes: 0xf10d
     },
 
     /**
