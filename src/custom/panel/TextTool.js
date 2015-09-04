@@ -55,6 +55,11 @@ Ext.define('Dext.custom.panel.TextTool', {
         if(this.glyph){
             newWidth = newWidth + 18;
         }
+
+        if(this.maxWidth && newWidth > this.maxWidth){
+            newWidth = this.maxWidth;
+        }
+
         this.setWidth(newWidth);
     }
 });
