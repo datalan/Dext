@@ -108,8 +108,12 @@ Ext.define('Dext.helpers.Encoding', {
     },
 
     html: function(text){
-        return text.replace(/[&"'<>]/g, Ext.bind(function(match){
-            return this.encodeHTMLmap[match];
-        }, this));
+        if(Ext.isString(text)){
+            return text.replace(/[&"'<>]/g, Ext.bind(function(match){
+                return this.encodeHTMLmap[match];
+            }, this));
+        } else{
+            return text;
+        }
     }
 });
