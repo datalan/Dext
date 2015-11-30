@@ -51,7 +51,7 @@ Ext.define('Dext.custom.panel.TextTool', {
     setCaption: function(caption) {
         caption = Dext.helpers.Encoding.html(caption);
         this.getEl().down('.x-tool-caption').setHtml(caption);
-        var newWidth = this.getEl().down('.x-tool-caption').getWidth();
+        var newWidth = this.getEl().dom.scrollWidth; // this.getEl().down('.x-tool-caption').getWidth(); gives bad width in IE and FF
         if(this.glyph){
             newWidth = newWidth + 18;
         }
