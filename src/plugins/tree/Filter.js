@@ -163,16 +163,14 @@ Ext.define('Dext.plugins.tree.Filter', {
      * @param searchField
      */
     onClearTriggerClick: function () {
-        this.resetFilter();
+        this.searchField.reset();
+        this.searchField.getTrigger('clear').hide();
     },
 
     /**
      * Reset filter and tree
      */
     resetFilter: function () {
-        this.searchField.reset();
-        this.searchField.getTrigger('clear').hide();
-
         this.tree.getStore().clearFilter();
 
         this.tree.collapseAll();
