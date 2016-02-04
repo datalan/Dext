@@ -239,6 +239,7 @@ Ext.define('Dext.plugins.tree.Filter', {
             store.getFilters().replaceAll({
                 filterFn: filterFn
             });
+            this.tree.getView().refreshView();
             this.tree.expandAll();
             //this.tree.doLayout();
         }
