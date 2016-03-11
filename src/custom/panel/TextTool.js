@@ -12,13 +12,15 @@ Ext.define('Dext.custom.panel.TextTool', {
     reguires: [
         'Dext.helpers.Encoding'
     ],
-
     renderTpl: ['<span class="{baseCls}-{type} {specificCls}">' +
                     '<span role="img" class="x-tool-glyph" unselectable="on" style="' +
                         '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">' +
                         '<tpl if="glyph">&#{glyph};</tpl>' +
                     '</span>' +
-                    '<span class="x-tool-caption {specificCaptionCls}" role="presentation">{caption}</span>' +
+                    '<span class="x-tool-caption" role="presentation">' +
+                        '<tpl if="textLabel"><span>{textLabel}: </tpl>' +
+                    '</span>' +
+                    '<span class="x-tool-caption {specificCaptionCls}" role="presentation"><strong>{caption}</strong></span>' +
                 '</span>'],
 
     listeners : {
@@ -41,6 +43,7 @@ Ext.define('Dext.custom.panel.TextTool', {
 
         Ext.applyIf(this.renderData, {
             caption: this.caption,
+            textLabel: this.textLabel,
             glyph: this.glyph || '',
             glyphFontFamily: this.glyphFontFamily,
             specificCaptionCls: this.specificCaptionCls,
@@ -60,7 +63,7 @@ Ext.define('Dext.custom.panel.TextTool', {
         } else {
             newWidth = Math.round(tm.getWidth(caption));
         }
-        
+
         if(this.glyph){
             newWidth = newWidth + 18;
         }
