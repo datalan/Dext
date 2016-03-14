@@ -13,14 +13,14 @@ Ext.define('Dext.custom.panel.TextTool', {
         'Dext.helpers.Encoding'
     ],
     renderTpl: ['<span class="{baseCls}-{type} {specificCls}">' +
-                    '<span role="img" class="x-tool-glyph" unselectable="on" style="' +
-                        '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">' +
-                        '<tpl if="glyph">&#{glyph};</tpl>' +
-                    '</span>' +
-                    '<span class="x-tool-caption" role="presentation">' +
-                        '<tpl if="textLabel"><span>{textLabel}: </tpl>' +
-                    '</span>' +
-                    '<span class="x-tool-caption {specificCaptionCls}" role="presentation"><strong>{caption}</strong></span>' +
+                '<span role="img" class="x-tool-glyph" unselectable="on" style="' +
+                '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">' +
+                '<tpl if="glyph">&#{glyph};</tpl>' +
+                '</span>' +
+                '<span class="x-tool-caption" role="presentation">' +
+                '<tpl if="textLabel">{textLabel}: </tpl>' +
+                '</span>' +
+                '<span class="x-tool-caption x-tool-caption-identifier {specificCaptionCls}" role="presentation"><strong class="x-tool-caption-strong">{caption}</strong></span>' +
                 '</span>'],
 
     listeners : {
@@ -55,11 +55,11 @@ Ext.define('Dext.custom.panel.TextTool', {
         var tm = new Ext.util.TextMetrics();
 
         caption = Dext.helpers.Encoding.html(caption);
-        this.getEl().down('.x-tool-caption').setHtml(caption);
+        this.getEl().down('.x-tool-caption-strong').setHtml(caption);
 
         var newWidth;
         if(Ext.isChrome){
-            newWidth = this.getEl().down('.x-tool-caption').getWidth();
+            newWidth = this.getEl().down('.x-tool-caption-identifier').getWidth();
         } else {
             newWidth = Math.round(tm.getWidth(caption));
         }
