@@ -36,6 +36,8 @@ Ext.define('Dext.plugins.tree.Filter', {
      */
     leafMatchingOnly: false,
 
+    buttonHideTreePanel: false,
+
     /**
      * Add search field at the top of tree panel
      *
@@ -72,6 +74,51 @@ Ext.define('Dext.plugins.tree.Filter', {
             }
         ]);
 
+        var items = [];
+        if(this.buttonHideTreePanel){
+            items.push({
+                xtype: 'button',
+                scale: 'large',
+                name: 'navigationTreeButton',
+                reference: 'navigationTreeButton',
+                cls: 'tree-button active'
+            });
+        }
+
+        items.push({
+            xtype: 'textfield',
+            flex:1,
+            emptyText: this.emptyText,
+
+            listeners: {
+                change: {
+                    fn: 'onFilterChange',
+                    buffer: 150
+                },
+                render: {
+                    fn: function (searchField) {
+                        this.searchField = searchField;
+                    }
+                },
+                scope: this
+            },
+
+            triggers: {
+                clear: {
+                    cls: 'x-form-clear-trigger',
+                    handler: 'onClearTriggerClick',
+                    hidden: true,
+                    scope: this
+                },
+                search: {
+                    cls: 'x-form-search-trigger',
+                    weight: 1,
+                    handler: 'onSearchTriggerClick',
+                    scope: this
+                }
+            }
+        });
+
         clientTree.addDocked({
             xtype: 'toolbar',
             dock: 'top',
@@ -82,42 +129,11 @@ Ext.define('Dext.plugins.tree.Filter', {
             },
 
             layout: {
-                type: 'vbox',
+                type: 'hbox',
                 align: 'stretch'
             },
 
-            items: {
-                xtype: 'textfield',
-                emptyText: this.emptyText,
-
-                listeners: {
-                    change: {
-                        fn: 'onFilterChange',
-                        buffer: 150
-                    },
-                    render: {
-                        fn: function (searchField) {
-                            this.searchField = searchField;
-                        }
-                    },
-                    scope: this
-                },
-
-                triggers: {
-                    clear: {
-                        cls: 'x-form-clear-trigger',
-                        handler: 'onClearTriggerClick',
-                        hidden: true,
-                        scope: this
-                    },
-                    search: {
-                        cls: 'x-form-search-trigger',
-                        weight: 1,
-                        handler: 'onSearchTriggerClick',
-                        scope: this
-                    }
-                }
-            }
+            items: items
         });
     },
 
